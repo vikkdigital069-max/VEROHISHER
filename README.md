@@ -50,11 +50,11 @@ pkg update && pkg upgrade -y
 pkg install git php curl wget unzip -y
 
 # Clone repository (or create script manually)
-git clone https://github.com/vikkdigital069-max/verohisher.git
-cd verohisher
+git clone https://github.com/vikkdigital069-max/VEROHISHER.git
+cd VEROHISHER
 
 # Make script executable
-chmod +x verohisher.sh
+chmod +x Verohisher.sh
 
 # Run VEROHISHER
-bash verohisher.sh
+bash Verohisher.sh

